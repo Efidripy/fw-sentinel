@@ -1,0 +1,2 @@
+# Specify the administrator IP before enabling protection; the installer adds the current SSH IP automatically.
+# 203.0.113.10

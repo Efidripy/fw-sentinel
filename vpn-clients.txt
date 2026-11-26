@@ -1,0 +1,2 @@
+# Client IPs with additional access ONLY to vpn_ports (443/8443).
+# Individual public IPv4/IPv6 addresses only, not subnets. Add with fw-sentinel vpn-add IP.

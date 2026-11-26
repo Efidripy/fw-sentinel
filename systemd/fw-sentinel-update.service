@@ -1,0 +1,15 @@
+[Unit]
+Description=Update FW Sentinel vetted IP feeds
+Wants=network-online.target
+After=network-online.target fw-sentinel-restore.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/fw-sentinel sync
+TimeoutStartSec=900
+UMask=0077
+ProtectSystem=strict
+ReadWritePaths=/opt/fw-sentinel
+PrivateTmp=true
+ProtectHome=true
+

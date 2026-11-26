@@ -1,0 +1,68 @@
+{
+  "version": "2.0.21",
+  "wan_interfaces": [],
+  "ssh_ports": [
+    22
+  ],
+  "geo_enabled": false,
+  "geo_ports": [
+    443,
+    8443
+  ],
+  "geo_tag": "ru",
+  "scanner_enabled": true,
+  "asn_enabled": true,
+  "logging_enabled": true,
+  "min_ru_ipv4": 1000,
+  "min_ru_ipv6": 1,
+  "min_scanner_prefix_v4": 8,
+  "min_scanner_prefix_v6": 16,
+  "max_feed_bytes": 30000000,
+  "max_growth_factor": 3.0,
+  "min_keep_fraction": 0.2,
+  "warn_stale_after_days": 14,
+  "event_retention_days": 90,
+  "ui_port": 1488,
+  "hook": "prerouting",
+  "log_rate_per_sec": 1,
+  "ssh_rate_enabled": true,
+  "ssh_rate_per_minute": 10,
+  "ssh_rate_burst": 10,
+  "vpn_ports": [
+    443,
+    8443
+  ],
+  "threat_ssh_enabled": true,
+  "threat_ssh_enforce": false,
+  "threat_watch_enabled": true,
+  "live_pass_logging_enabled": true,
+  "live_pass_log_rate_per_sec": 2,
+  "ui_base_path": "/",
+  "ui_public_origin": "",
+  "geo_mode": "ru_only",
+  "manual_bans_enabled": true,
+  "ssh_watch_enabled": false,
+  "autoban_enabled": false,
+  "autoban_trap_ports": [],
+  "autoban_udp_enabled": false,
+  "autoban_exclude_tcp_ports": [
+    22,
+    53,
+    80,
+    443,
+    8443,
+    8080,
+    8081,
+    9443
+  ],
+  "autoban_exclude_udp_ports": [
+    53,
+    123,
+    443,
+    8443,
+    51820
+  ],
+  "threat_watch_enforce": false,
+  "extra_threat_feeds_enabled": false,
+  "advanced_feed_pack_enabled": false
+}

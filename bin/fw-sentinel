@@ -1,0 +1,4 @@
+#!/bin/sh
+# Run the CLI from its installed module directory so Python resolves autoban.py.
+# Do not rely on PYTHONPATH or duplicate modules under /usr/local/sbin.
+exec /usr/bin/python3 -u /usr/local/lib/fw-sentinel/fw_sentinel.py "$@"

@@ -1,0 +1,1 @@
+# Manual permanent bans only. Addresses from logs are NOT added here automatically.

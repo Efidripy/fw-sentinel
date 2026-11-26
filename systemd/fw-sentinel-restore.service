@@ -1,0 +1,12 @@
+[Unit]
+Description=Restore last confirmed FW Sentinel policy at boot
+After=nftables.service
+Before=fw-sentinel-monitor.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/fw-sentinel restore
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,184 @@
+{
+  "geoip": [
+    "https://github.com/jameszeroX/zkeen-ip/releases/latest/download/zkeenip.dat",
+    "https://cdn.jsdelivr.net/gh/jameszeroX/zkeen-ip@master/release/zkeenip.dat",
+    "https://fastly.jsdelivr.net/gh/jameszeroX/zkeen-ip@master/release/zkeenip.dat"
+  ],
+  "cidr": {
+    "cyberok_skipa": "https://raw.githubusercontent.com/tread-lightly/CyberOK_Skipa_ips/main/lists/skipa_cidr.txt",
+    "shadow_skipa": "https://raw.githubusercontent.com/shadow-netlab/traffic-guard-lists/main/public/skipa.list",
+    "shadow_antiscanner": "https://raw.githubusercontent.com/shadow-netlab/traffic-guard-lists/main/public/antiscanner.list",
+    "censys": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/censys_v4.txt",
+    "shodan": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/shodan_v4.txt",
+    "paloalto": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/paloaltonetworks_v4.txt",
+    "shadowserver": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/shadowserver_v4.txt",
+    "driftnet": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/driftnet_v4.txt",
+    "onyphe": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/onyphe_v4.txt",
+    "zoomeye": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/zoomeye_v4.txt",
+    "leakix": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/leakix_v4.txt",
+    "rapid7": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/rapid7_v4.txt",
+    "fofa": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/fofa_v4.txt",
+    "quake": "https://raw.githubusercontent.com/OpenFilters/internet-scanners/main/cidr/quake_v4.txt"
+  },
+  "threat_ssh": {
+    "blocklist_ssh": {
+      "url": "https://lists.blocklist.de/lists/ssh.txt",
+      "format": "cidr",
+      "enabled": true
+    }
+  },
+  "threat_watch": {
+    "spamhaus_drop_v4": {
+      "url": "https://www.spamhaus.org/drop/drop_v4.json",
+      "format": "spamhaus_drop",
+      "enabled": true
+    },
+    "spamhaus_drop_v6": {
+      "url": "https://www.spamhaus.org/drop/drop_v6.json",
+      "format": "spamhaus_drop",
+      "enabled": true
+    },
+    "blocklist_bots": {
+      "url": "https://lists.blocklist.de/lists/bots.txt",
+      "format": "cidr",
+      "enabled": true
+    },
+    "dshield_attackers": {
+      "url": "https://feeds.dshield.org/feeds/block.txt",
+      "format": "dshield",
+      "enabled": true
+    },
+    "opendbl_high_confidence": {
+      "url": "https://opendbl.net/lists/high-confidence.list",
+      "format": "cidr",
+      "enabled": true
+    },
+    "abuseipdb_blacklist90": {
+      "url": "https://api.abuseipdb.com/api/v2/blacklist",
+      "format": "abuseipdb",
+      "enabled": true,
+      "confidence_minimum": 90
+    },
+    "ipsum_level5": {
+      "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/levels/5.txt",
+      "format": "cidr",
+      "enabled": true
+    },
+    "emerging_compromised": {
+      "url": "https://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+      "format": "cidr",
+      "enabled": true
+    },
+    "greensnow_attackers": {
+      "url": "https://blocklist.greensnow.co/greensnow.txt",
+      "format": "cidr",
+      "enabled": true
+    }
+  },
+  "advanced_feeds": {
+    "ru_gov_shadow": {
+      "name": "Russian government organizations (traffic-guard)",
+      "group": "RU-GOV",
+      "url": "https://raw.githubusercontent.com/shadow-netlab/traffic-guard-lists/main/public/government_networks.list",
+      "format": "cidr",
+      "confidence": "context",
+      "enabled": true
+    },
+    "ru_gov_c24be": {
+      "name": "Russian government networks (C24Be)",
+      "group": "RU-GOV",
+      "url": "https://raw.githubusercontent.com/C24Be/AS_Network_List/main/blacklists/blacklist.txt",
+      "format": "cidr",
+      "confidence": "context",
+      "enabled": true
+    },
+    "misp_skipa": {
+      "name": "SKIPA (MISP)",
+      "group": "RU-SCAN",
+      "url": "https://raw.githubusercontent.com/MISP/misp-warninglists/main/lists/skipa-nt-scanning/list.json",
+      "format": "misp_json",
+      "confidence": "scanner",
+      "enabled": true
+    },
+    "misp_cyberok": {
+      "name": "CyberOK (MISP)",
+      "group": "RU-SCAN",
+      "url": "https://raw.githubusercontent.com/MISP/misp-warninglists/main/lists/cyberok-scanning/list.json",
+      "format": "misp_json",
+      "confidence": "scanner",
+      "enabled": true
+    },
+    "misp_groupib": {
+      "name": "Group-IB (MISP)",
+      "group": "RU-SCAN",
+      "url": "https://raw.githubusercontent.com/MISP/misp-warninglists/main/lists/groupib-scanning/list.json",
+      "format": "misp_json",
+      "confidence": "scanner",
+      "enabled": true
+    },
+    "nerd_high": {
+      "name": "NERD high-confidence",
+      "group": "THREAT",
+      "url": "https://nerd.cesnet.cz/nerd/data/bad_ips.txt",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    },
+    "nerd_login": {
+      "name": "NERD inbound attacks",
+      "group": "THREAT",
+      "url": "https://nerd.cesnet.cz/nerd/data/bl_login.txt",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    },
+    "nerd_exploit": {
+      "name": "NERD exploitation",
+      "group": "THREAT",
+      "url": "https://nerd.cesnet.cz/nerd/data/bl_exploit.txt",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    },
+    "nerd_scan": {
+      "name": "NERD scanners",
+      "group": "SCAN",
+      "url": "https://nerd.cesnet.cz/nerd/data/bl_scan.txt",
+      "format": "cidr",
+      "confidence": "scanner",
+      "enabled": true
+    },
+    "firehol_1": {
+      "name": "FireHOL Level 1",
+      "group": "THREAT",
+      "url": "https://iplists.firehol.org/files/firehol_level1.netset",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    },
+    "firehol_2": {
+      "name": "FireHOL Level 2",
+      "group": "CONTEXT",
+      "url": "https://iplists.firehol.org/files/firehol_level2.netset",
+      "format": "cidr",
+      "confidence": "context",
+      "enabled": true
+    },
+    "blocklist_all": {
+      "name": "Blocklist.de All",
+      "group": "THREAT",
+      "url": "https://lists.blocklist.de/lists/all.txt",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    },
+    "threatview_high": {
+      "name": "ThreatView High Confidence IP",
+      "group": "THREAT",
+      "url": "https://threatview.io/Downloads/IP-High-Confidence-Feed.txt",
+      "format": "cidr",
+      "confidence": "threat",
+      "enabled": true
+    }
+  }
+}

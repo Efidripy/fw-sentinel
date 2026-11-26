@@ -1,0 +1,8 @@
+# FSUE Main Radio Frequency Centre
+AS61280
+AS196641
+AS213853
+# Air traffic management
+AS51932
+# Civil aviation technical information centre
+AS34500

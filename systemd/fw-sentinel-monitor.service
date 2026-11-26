@@ -1,0 +1,18 @@
+[Unit]
+Description=FW Sentinel kernel event observer
+After=systemd-journald.service fw-sentinel-restore.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/fw-sentinel monitor
+Restart=on-failure
+RestartSec=5
+UMask=0077
+ProtectSystem=strict
+ReadWritePaths=/opt/fw-sentinel
+PrivateTmp=true
+ProtectHome=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

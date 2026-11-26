@@ -1,0 +1,8 @@
+[Unit]
+Description=Check and restore FW Sentinel rules if nftables.service flushed them
+After=nftables.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/fw-sentinel guard
+UMask=0077

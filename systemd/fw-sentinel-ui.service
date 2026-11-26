@@ -1,0 +1,22 @@
+[Unit]
+Description=FW Sentinel localhost web admin UI
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/lib/fw-sentinel
+ExecStart=/usr/bin/python3 -u /usr/local/lib/fw-sentinel/webui.py
+Restart=on-failure
+RestartSec=5
+User=root
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/fw-sentinel
+CapabilityBoundingSet=CAP_NET_ADMIN
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+
+[Install]
+WantedBy=multi-user.target
