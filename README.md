@@ -26,7 +26,7 @@ FW Sentinel is built around three ideas:
 | ASN and country filters | Block chosen autonomous systems. Optionally limit chosen ports to one country. |
 | Port-scan autoban | 6 different closed TCP ports within 60 s, or 8 within an hour (slow scanners). |
 | Trap ports | One touch of a port you never use bans the address. |
-| SSH protection | A successful login makes the address trusted (key: 30 days, password: 24 hours). 6 failed attempts in 10 minutes ban it. |
+| SSH protection | A successful login makes the address trusted (key: 30 days, password: 24 hours). 6 failed attempts in 10 minutes, or 10 in 24 hours, ban it. |
 | Escalating bans | 24 h → 7 days → 30 days → 180 days → 365 days. Trap and SSH bans start at 1 hour. |
 | Manual lists | Trusted, VPN client and banned addresses, one by one or in bulk. |
 | Web panel | Live traffic feed, per-address history with ports and counters, country / provider / abuse score, list and policy management. English and Russian. |

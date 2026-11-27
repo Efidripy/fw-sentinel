@@ -23,6 +23,9 @@ DISTINCT = 6
 # Slow scanners stay under the fast rule; 8/hour matched no allowed traffic on 24h of live data.
 SLOW_WINDOW = 3600
 SLOW_DISTINCT = 8
+# SSH: a quick burst, or a patient guesser who stays under it (seen live: 3 tries an hour).
+SSH_WINDOW, SSH_FAILS = 600, 6
+SSH_DAY, SSH_DAY_FAILS = 86400, 10
 DURATION_MINUTES = 1440  # Legacy first-offense constant; retained for existing callers.
 # 1 day, 1 week, 30 days, 180 days, 365 days; repeat offenses cap at 1 year.
 BAN_DURATIONS = (86400, 7*86400, 30*86400, 180*86400, 365*86400)
@@ -295,10 +298,11 @@ class Detector:
         if ssh:
             failures=self.ssh_failures.setdefault(key,[])
             self.ssh_failures.move_to_end(key)
-            failures[:]=[t for t in failures if current-t<600]
+            # shortcut: kept in memory, a monitor restart forgets the day; seed from the journal if that matters.
+            failures[:]=[t for t in failures if current-t<SSH_DAY][1-SSH_DAY_FAILS:]
             failures.append(current)
             if len(self.ssh_failures)>MAX_TRACKED:self.ssh_failures.popitem(last=False)
-            if len(failures)<6:return False
+            if len(failures)<SSH_DAY_FAILS and sum(current-t<SSH_WINDOW for t in failures)<SSH_FAILS:return False
         ports={}
         if not ssh:
             ports=self.probes.setdefault(key,{})

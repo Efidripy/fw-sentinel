@@ -80,6 +80,13 @@ class SSHBehaviourTests(unittest.TestCase):
         self.assertFalse(self.fail())
         for _ in range(8):self.assertFalse(self.fail('1.1.1.1'))
 
+    def test_slow_guesser_is_banned_on_the_tenth_failure_of_a_day(self):
+        for _ in range(9):
+            self.assertFalse(self.fail());self.clock+=1700
+        self.assertTrue(self.fail())
+        for _ in range(30):  # nine a day never reaches the daily limit
+            self.assertFalse(self.fail('8.8.8.8'));self.clock+=10000
+
     def test_scan_ban_is_upgraded_by_brute_force(self):
         for port in range(20000,20006):self.detector.handle('8.8.4.4',port,'TCP')
         self.assertEqual(self.con.execute('SELECT count(*) FROM auto_ban_traps').fetchone()[0],0)
