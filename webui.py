@@ -994,6 +994,31 @@ tick();window.addEventListener('pagehide',()=>{stopped=true;clearInterval(timer)
 })();"""
 
 
+def control_geo_items():
+    return [('off',tr('Off: allow both Russian and non-Russian IPs','Выключен: разрешать и РФ, и не-РФ')),
+               ('ru_only',tr('Russian IPs only on VPN ports','Только РФ на VPN-портах')),
+               ('non_ru_only',tr('Non-Russian IPs only on VPN ports','Только не-РФ на VPN-портах'))]
+
+
+def control_features():
+    return [
+        ('manual_bans_enabled',tr('Enforce permanent blocklist','Применять постоянный чёрный список'),tr('IPs from the IP Lists tab. Works only when blocking is enforced','IP из вкладки «Списки IP». Работает только в режиме реальной блокировки')),
+        ('scanner_enabled',tr('Block known scanner IPs','Блокировать IP известных сканеров'),tr('Networks from OpenFilters, CyberOK and other lists; false positives are possible','Сети из OpenFilters, CyberOK и других списков; возможно ложное совпадение')),
+        ('asn_enabled',tr('Block networks of selected ASNs','Блокировать сети выбранных ASN'),tr('ASN is a provider’s autonomous system number; the list comes from asn.txt, independently of scanner lists','ASN — номер автономной сети провайдера; список из asn.txt, независимо от сканеров')),
+        ('ssh_rate_enabled',tr('Limit new SSH connections','Ограничить новые SSH-подключения'),tr('Up to 10 new attempts per minute per IP with burst allowance; VPN ports are excluded','До 10 новых попыток в минуту на IP с burst; VPN-порты исключены')),
+        ('threat_ssh_enabled',tr('Observe SSH attacks','Наблюдать атаки на SSH'),tr('Events from SSH attack lists: logging only, no blocking','События из списков атак на SSH: только журнал, без блокировки')),
+        ('threat_ssh_enforce',tr('Block IPs from SSH lists','Блокировать IP из SSH-списков'),tr('Enforced blocking on SSH ports may restrict remote administration','Реальные блокировки на SSH-портах: могут ограничить удалённое администрирование')),
+        ('threat_watch_enabled',tr('Fetch WATCH reputation lists','Получать репутационные списки WATCH'),tr('Spamhaus, DShield, OpenDBL and others; observe only unless blocking is enabled separately','Spamhaus, DShield, OpenDBL и другие; без отдельной галочки только наблюдение')),
+        ('threat_watch_enforce',tr('BLOCK IPs from WATCH lists on all ports','БЛОКИРОВАТЬ IP из WATCH-списков на всех портах'),tr('Aggressive policy: DROP also applies to VPN ports 443/8443; false positives and NAT/CDN may affect clients','Агрессивная политика: DROP в том числе на VPN 443/8443; ложные совпадения, NAT/CDN могут затронуть клиентов')),
+        ('logging_enabled',tr('Log network events','Записывать сетевые события'),tr('Required for IP history and the live log; packet logging is rate-limited','Нужен для истории IP и живого журнала; запись пакетов ограничена по частоте')),
+        ('live_pass_logging_enabled',tr('Show passed packets in the LIVE log','Показывать прошедшие пакеты в LIVE-журнале'),tr('Sampled new TCP SYN packets on VPN ports; not a count of active users','Выборочные новые TCP SYN на VPN-портах; не число активных пользователей')),
+        ('autoban_enabled',tr('Automatically ban port scanning','Автоматически блокировать сканирование портов'),tr('6 different unknown TCP ports in 60 seconds or 8 in an hour → 24 h / 7 d / 30 d / 180 d / 365 d for repeat detections; separate from manual bans','6 разных неизвестных TCP-портов за 60 секунд или 8 за час → 24 ч / 7 д / 30 д / 180 д / 365 д за повторные срабатывания; отдельно от ручных блокировок')),
+        ('ssh_watch_enabled',tr('SSH: trust after login and ban for brute force','SSH: доверие после входа и бан за перебор'),tr('Successful key login: trust for 30 days; password login: 24 hours. 6 failures in 10 minutes or 10 in 24 hours: ban on all ports except the web panel port. Requires auto-ban to be enabled','Успешный вход по ключу: доверие 30 дней, по паролю: 24 часа. 6 неудач за 10 минут или 10 за сутки: бан на всех портах кроме панели. Нужен включённый автобан')),
+        ('extra_threat_feeds_enabled',tr('Additional feeds: AbuseIPDB, IPsum, Emerging Threats, GreenSnow','Дополнительные базы: AbuseIPDB, IPsum, Emerging Threats, GreenSnow'),tr('Affect DROP after confirmation','Влияют на DROP после подтверждения')),
+        ('advanced_feed_pack_enabled',tr('Advanced free IP feeds','Расширенные бесплатные IP-базы'),tr('Separate catalog: NERD, FireHOL, RU-SCAN, GOV, and others. Must be downloaded first; government networks are for reference only','Отдельный каталог: NERD, FireHOL, RU-SCAN, GOV и др. Требуется предварительная загрузка; госcети только справочно')),
+    ]
+
+
 def control_page(message='',job=None):
     st=fw.state();cfg=fw.config();mode=st.get('mode','off')
     job=job or fw.ui_apply_current()
@@ -1015,27 +1040,10 @@ def control_page(message='',job=None):
     draft=fw.policy_draft()
     selected=draft['candidate'] if draft else cfg
     geo=('off' if not selected.get('geo_enabled',False) else selected.get('geo_mode','ru_only'))
-    geo_items=[('off',tr('Off: allow both Russian and non-Russian IPs','Выключен: разрешать и РФ, и не-РФ')),
-               ('ru_only',tr('Russian IPs only on VPN ports','Только РФ на VPN-портах')),
-               ('non_ru_only',tr('Non-Russian IPs only on VPN ports','Только не-РФ на VPN-портах'))]
+    geo_items=control_geo_items()
     radios=''.join(f'<label class="control-choice"><input type="radio" name="geo_choice" value="{key}"'+
         (' checked' if geo==key else '')+f'><span>{e(label)}</span></label>' for key,label in geo_items)
-    features=[
-        ('manual_bans_enabled',tr('Enforce permanent blocklist','Применять постоянный чёрный список'),tr('IPs from the IP Lists tab. Works only when blocking is enforced','IP из вкладки «Списки IP». Работает только в режиме реальной блокировки')),
-        ('scanner_enabled',tr('Block known scanner IPs','Блокировать IP известных сканеров'),tr('Networks from OpenFilters, CyberOK and other lists; false positives are possible','Сети из OpenFilters, CyberOK и других списков; возможно ложное совпадение')),
-        ('asn_enabled',tr('Block networks of selected ASNs','Блокировать сети выбранных ASN'),tr('ASN is a provider’s autonomous system number; the list comes from asn.txt, independently of scanner lists','ASN — номер автономной сети провайдера; список из asn.txt, независимо от сканеров')),
-        ('ssh_rate_enabled',tr('Limit new SSH connections','Ограничить новые SSH-подключения'),tr('Up to 10 new attempts per minute per IP with burst allowance; VPN ports are excluded','До 10 новых попыток в минуту на IP с burst; VPN-порты исключены')),
-        ('threat_ssh_enabled',tr('Observe SSH attacks','Наблюдать атаки на SSH'),tr('Events from SSH attack lists: logging only, no blocking','События из списков атак на SSH: только журнал, без блокировки')),
-        ('threat_ssh_enforce',tr('Block IPs from SSH lists','Блокировать IP из SSH-списков'),tr('Enforced blocking on SSH ports may restrict remote administration','Реальные блокировки на SSH-портах: могут ограничить удалённое администрирование')),
-        ('threat_watch_enabled',tr('Fetch WATCH reputation lists','Получать репутационные списки WATCH'),tr('Spamhaus, DShield, OpenDBL and others; observe only unless blocking is enabled separately','Spamhaus, DShield, OpenDBL и другие; без отдельной галочки только наблюдение')),
-        ('threat_watch_enforce',tr('BLOCK IPs from WATCH lists on all ports','БЛОКИРОВАТЬ IP из WATCH-списков на всех портах'),tr('Aggressive policy: DROP also applies to VPN ports 443/8443; false positives and NAT/CDN may affect clients','Агрессивная политика: DROP в том числе на VPN 443/8443; ложные совпадения, NAT/CDN могут затронуть клиентов')),
-        ('logging_enabled',tr('Log network events','Записывать сетевые события'),tr('Required for IP history and the live log; packet logging is rate-limited','Нужен для истории IP и живого журнала; запись пакетов ограничена по частоте')),
-        ('live_pass_logging_enabled',tr('Show passed packets in the LIVE log','Показывать прошедшие пакеты в LIVE-журнале'),tr('Sampled new TCP SYN packets on VPN ports; not a count of active users','Выборочные новые TCP SYN на VPN-портах; не число активных пользователей')),
-        ('autoban_enabled',tr('Automatically ban port scanning','Автоматически блокировать сканирование портов'),tr('6 different unknown TCP ports in 60 seconds or 8 in an hour → 24 h / 7 d / 30 d / 180 d / 365 d for repeat detections; separate from manual bans','6 разных неизвестных TCP-портов за 60 секунд или 8 за час → 24 ч / 7 д / 30 д / 180 д / 365 д за повторные срабатывания; отдельно от ручных блокировок')),
-        ('ssh_watch_enabled',tr('SSH: trust after login and ban for brute force','SSH: доверие после входа и бан за перебор'),tr('Successful key login: trust for 30 days; password login: 24 hours. 6 failures in 10 minutes or 10 in 24 hours: ban on all ports except the web panel port. Requires auto-ban to be enabled','Успешный вход по ключу: доверие 30 дней, по паролю: 24 часа. 6 неудач за 10 минут или 10 за сутки: бан на всех портах кроме панели. Нужен включённый автобан')),
-        ('extra_threat_feeds_enabled',tr('Additional feeds: AbuseIPDB, IPsum, Emerging Threats, GreenSnow','Дополнительные базы: AbuseIPDB, IPsum, Emerging Threats, GreenSnow'),tr('Affect DROP after confirmation','Влияют на DROP после подтверждения')),
-        ('advanced_feed_pack_enabled',tr('Advanced free IP feeds','Расширенные бесплатные IP-базы'),tr('Separate catalog: NERD, FireHOL, RU-SCAN, GOV, and others. Must be downloaded first; government networks are for reference only','Отдельный каталог: NERD, FireHOL, RU-SCAN, GOV и др. Требуется предварительная загрузка; госcети только справочно')),
-    ]
+    features=control_features()
     toggles=''.join('<label class="control-choice"><input type="checkbox" name="'+key+'" value="1"'+
         (' checked' if selected.get(key,False) else '')+'><span><b>'+e(label)+'</b><br><span class="small-note">'+e(desc)+'</span></span></label>'
         for key,label,desc in features)

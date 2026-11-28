@@ -138,6 +138,7 @@ sudo env FWS_UI_BASE_PATH=/your-secret-path/ FWS_UI_PUBLIC_ORIGIN=https://panel.
 | `abuse-key-set` | Сохранить API-ключ AbuseIPDB |
 | `provider set\|disable\|status [id]` | Ключи других поставщиков |
 | `menu` | Текстовое меню |
+| `top` | ????????????? ????? ? ????????? |
 
 ## Настройки
 

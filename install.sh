@@ -3,11 +3,11 @@ set -Eeuo pipefail
 umask 077
 if ((EUID!=0)); then echo 'Root required: sudo bash install.sh' >&2; exit 1; fi
 cd -- "$(dirname -- "$(readlink -f -- "$0")")"
-for f in bin/fw-sentinel fw_sentinel.py webui.py i18n.py ipmeta.py ipintel.py credentials.py autoban.py provider_keys.py config.json sources.json allow.txt manual-bans.txt vpn-clients.txt asn.txt; do
+for f in bin/fw-sentinel fw_sentinel.py webui.py tui.py i18n.py ipmeta.py ipintel.py credentials.py autoban.py provider_keys.py config.json sources.json allow.txt manual-bans.txt vpn-clients.txt asn.txt; do
   test -f "$f" || { echo "Missing $f" >&2; exit 1; }
 done
 # Validate all Python sources before changing anything on the target system.
-/usr/bin/python3 -m py_compile fw_sentinel.py webui.py i18n.py autoban.py ipmeta.py ipintel.py credentials.py provider_keys.py
+/usr/bin/python3 -m py_compile fw_sentinel.py webui.py tui.py i18n.py autoban.py ipmeta.py ipintel.py credentials.py provider_keys.py
 /bin/sh -n bin/fw-sentinel
 /usr/bin/python3 fw_sentinel.py --version | grep -Fxq 'FW Sentinel 2.0.21' || {
   echo 'FW Sentinel 2.0.21 module check failed before installation' >&2
@@ -27,7 +27,7 @@ install -d -m 0700 /opt/fw-sentinel /opt/fw-sentinel/cache /opt/fw-sentinel/cach
 install -d -m 0755 /usr/local/lib/fw-sentinel /usr/local/sbin
 # The CLI is a launcher; its real Python script and modules live together.
 # This prevents ModuleNotFoundError: autoban for CLI and systemd services.
-install -m 0644 fw_sentinel.py webui.py i18n.py ipmeta.py ipintel.py credentials.py autoban.py provider_keys.py /usr/local/lib/fw-sentinel/
+install -m 0644 fw_sentinel.py webui.py tui.py i18n.py ipmeta.py ipintel.py credentials.py autoban.py provider_keys.py /usr/local/lib/fw-sentinel/
 install -m 0755 bin/fw-sentinel /usr/local/sbin/fw-sentinel
 # Run the actual installed executable, not just imports from the source checkout.
 if ! /usr/local/sbin/fw-sentinel --version | grep -Fxq 'FW Sentinel 2.0.21'; then

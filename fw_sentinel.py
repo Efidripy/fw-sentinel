@@ -2647,6 +2647,7 @@ def main():
     ap=argparse.ArgumentParser(description='FW Sentinel '+VERSION)
     ap.add_argument('--version',action='version',version='FW Sentinel '+VERSION)
     sub=ap.add_subparsers(dest='command',required=True)
+    sub.add_parser('top')
     for x in ('status','sync','observe','enable','disable','restore','guard','monitor','menu','hits','audit-vpn','verify-restore','abuse-key-set','feeds-prepare','feeds-status','feeds-catalog-status'):
         sub.add_parser(x)
     feed=sub.add_parser('feeds-catalog-sync');feed.add_argument('source',nargs='?',help=tr('Database ID to update only one database','ID базы, если нужно обновить только одну'))
@@ -2695,6 +2696,9 @@ def main():
         if not report['ready']:sys.exit(2)
     elif command=='monitor':start_ssh_watch();monitor()
     elif command=='menu':menu()
+    elif command=='top':
+        import tui
+        tui.run(sys.modules[__name__])
     elif command=='audit-vpn':
         cfg=config();sets,_,_=build_sets_from_sources(cfg,False);print_vpn_audit(cfg,sets)
     elif command=='hits':

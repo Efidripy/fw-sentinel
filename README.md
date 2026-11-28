@@ -138,6 +138,7 @@ Run with `sudo fw-sentinel <command>`.
 | `abuse-key-set` | Store an AbuseIPDB API key |
 | `provider set\|disable\|status [id]` | Keys of other providers |
 | `menu` | Text menu |
+| `top` | Full-screen live feed and settings |
 
 ## Settings
 
